@@ -1,0 +1,54 @@
+{
+    "project_files" : ["main.py", "config.json", "utility.py", "engine.py", "loss.py", "./my_models/TGAN.py"],
+    "description" : "deep resnet for A",
+    "checkpoint_path" : "/mnt/pami/yktian/new_task/",
+
+    "train_recorder_list" : ["density_loss", "error_mae", "error_mse"],
+    "test_recorder_list" : ["density_loss", "error_mae", "error_mse"],
+    "data" : {
+        "train" : {
+            "dataset" : { 
+                "name" : "ShanghaiA",
+                "downscale" : 4,
+                "dataset_path" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/shanghai/part_A/shanghaiA_dataset.pkl",
+                "density_map" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/density_map/shanghaiA_downscale_4.pkl"
+             },
+            "num_workers" : 4,
+            "number" : 300,
+            "batch_size" :20,
+            "shuffle" : true
+        },
+        "test" : {
+            "dataset" : { 
+                "name" : "ShanghaiA",
+                "downscale" : 4,
+                "dataset_path" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/shanghai/part_A/shanghaiA_dataset.pkl",
+                "density_map" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/density_map/shanghaiA_downscale_4.pkl"
+             },
+            "num_workers" : 4,
+            "batch_size" : 1,
+            "number" : 128,
+            "shuffle" : false
+        }
+    },
+
+    "model" : {
+    
+        "network" : "resnet34",
+        "lambda" : 0.01,
+        "training" : "train_crowd",
+        "testing" : "validate_crowd",
+        "init_data" : "init_dataloader",
+        "init_model_optimizer" : "init_model_optimizer", 
+        "device_ids" :"6,7,8,9",
+        "epoches" : 700,
+        "test_freq" : 1,
+        "optimizer" : "Adam",
+        "learning_rate" : 1e-6,
+        "weight_decay" : 1e-4
+        
+    }
+
+
+
+}

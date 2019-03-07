@@ -1,0 +1,58 @@
+{
+    "project_files" : ["main.py", "config.json", "utility.py", "engine.py", "loss.py"],
+    "description" : "PaDNet for Dataset A",
+    "checkpoint_path" : "/mnt/pami/yktian/new_task/",
+
+    "train_recorder_list" : ["l1_density_loss", "l1_error_mae", "l1_error_mse", "l2_density_loss", "l2_error_mae", "l2_error_mse",
+                                "l3_density_loss", "l3_error_mae", "l3_error_mse", "total_density_loss", "total_error_mae", "total_error_mse"],
+    "test_recorder_list" : ["l1_density_loss", "l1_error_mae", "l1_error_mse", "l2_density_loss", "l2_error_mae", "l2_error_mse",
+                                "l3_density_loss", "l3_error_mae", "l3_error_mse", "total_density_loss", "total_error_mae", "total_error_mse"],
+    "data" : {
+        "train" : {
+            "dataset" : { 
+                "name" : "ShanghaiA_PaDNet",
+                "downscale" : 8,
+                "dataset_path" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/shanghai/part_A/shanghaiA_dataset_knn.pkl",
+                "density_map" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/density_map/shanghaiA_downscale_8.pkl"
+             },
+            "num_workers" : 5,
+            "number" : 300,
+            "batch_size" :24,
+            "shuffle" : true
+        },
+        "test" : {
+            "dataset" : { 
+                "name" : "ShanghaiA_PaDNet",
+                "downscale" : 8,
+                "dataset_path" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/shanghai/part_A/shanghaiA_dataset_knn.pkl",
+                "density_map" : "/mnt/pami/yktian/dataset/total_dataset/new_crowd/density_map/shanghaiA_downscale_8.pkl"
+             },
+            "num_workers" : 4,
+            "batch_size" : 1,
+            "number" : 128,
+            "shuffle" : false
+        }
+    },
+
+    "model" : {
+    
+        "network" : "PaDNet_Attention",
+        "lambda" : 0.01,
+        "levels" : ["l1", "l2", "l3"],
+        "training" : "train_union",
+        "testing" : "validate_ssn",
+        "init_data" : "init_dataloader_PaDNet",
+        "init_model_optimizer" :"init_model_optimizer" ,
+        "device_ids" :"0,1,2,3",
+        "epoches" : 250,
+        "sub_epoches" : 30,
+        "test_freq" : 1,
+        "optimizer" : "Adam",
+        "learning_rate" : 1e-5,
+        "weight_decay" : 1e-4
+        
+    }
+
+
+
+}
